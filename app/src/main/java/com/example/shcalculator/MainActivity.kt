@@ -187,7 +187,7 @@ class MainActivity : ComponentActivity() {
 
                             Spacer(modifier = Modifier.height(16.dp))
 
-                            //StrongholdMap(eyeThrows, prediction)
+                            StrongholdMap(eyeThrows, prediction)
                         }
                     }
 
@@ -361,7 +361,7 @@ fun StrongholdMap(
         for (eyeThrow in throws) {
             val origin = worldToCanvas(eyeThrow.x.toFloat(), eyeThrow.z.toFloat(), center, pixelsPerBlock)
             val rad = ((eyeThrow.angle + 270) * PI / 180).toFloat()
-            val endWorld = Offset(eyeThrow.x.toFloat(), eyeThrow.z.toFloat()) + Offset(-cos(rad), -sin(rad)) * 1000f
+            val endWorld = Offset(eyeThrow.x.toFloat(), eyeThrow.z.toFloat()) + Offset(-cos(rad), -sin(rad)) * 10000f
             val end = worldToCanvas(endWorld.x, endWorld.y, center, pixelsPerBlock)
 
             drawCircle(
