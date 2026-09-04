@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -58,12 +59,19 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.round
 import androidx.compose.ui.unit.sp
 import com.example.shcalculator.ui.theme.SHCalculatorTheme
 import kotlinx.coroutines.launch
@@ -118,92 +126,121 @@ fun worldToCanvas(
     )
 }
 
+fun DrawScope.centeredImage(
+    image: ImageBitmap,
+    center: Offset,
+    size: IntSize
+) {
+    if (center.x.isNaN() || center.y.isNaN()) {
+        return
+    }
+
+    val topLeft = center - Offset(
+        size.width / 2f,
+        size.height / 2f
+    )
+
+    drawImage(
+        image = image,
+        dstOffset = topLeft.round(),
+        dstSize = size
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SHCalculatorTheme {
-                var showBottomSheet by remember{mutableStateOf(false)}
-                var eyeThrows by remember{mutableStateOf(emptyList<EyeThrow>())}
-                var prediction by remember{mutableStateOf(StrongholdPrediction(0.0,0.0))}
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        TopAppBar(
-                            colors = topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                titleContentColor = MaterialTheme.colorScheme.primary,
-                            ),
-                            title = {
-                                Text("Calculate Stronghold")
-                            }
-                        )
-                    },
-                    bottomBar = {
-                        BottomAppBar(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            contentColor = MaterialTheme.colorScheme.primary
-                        ) {
-
-                        }
-                    },
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = {
-                                showBottomSheet = true
-                            }
-                        ) {
-                            Icon(Icons.Default.Add, contentDescription = "Add")
-                        }
-                    }
-                ) { innerPadding ->
-
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                    ) {
-                        Column(modifier = Modifier
-                            .padding(16.dp)
-                        ) {
-                            var upperText = "Need at least 2 eye measures to calculate"
-
-                            if (eyeThrows.size >= 2) {
-                                prediction = getIntersection(eyeThrows[0], eyeThrows[1])
-                                upperText = "${prediction.x.toInt()}, ${prediction.z.toInt()}"
-                            }
-
-                            if (!eyeThrows.isEmpty()) {
-                                LazyColumn {
-                                    items(eyeThrows) { currentEye ->
-                                        CoordinateItem(currentEye)
-                                    }
-                                }
-
-                                HorizontalDivider()
-                            }
-
-                            Text (text = upperText)
-
-                            Spacer(modifier = Modifier.height(16.dp))
-
-                            StrongholdMap(eyeThrows, prediction)
-                        }
-                    }
-
-                    if (showBottomSheet) {
-                        AddEyeModal(
-                            onDismiss = {
-                                showBottomSheet = false
-                            },
-
-                            onClick = {
-                                eyeThrows = eyeThrows + listOf(it)
-                            }
-                        )
-                    }
-                }
+                MainScreen()
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+@Preview
+
+fun MainScreen() {
+    var showBottomSheet by remember{mutableStateOf(false)}
+    var eyeThrows by remember{mutableStateOf(emptyList<EyeThrow>())}
+    var prediction by remember{mutableStateOf(StrongholdPrediction(Double.NaN, Double.NaN))}
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text("Calculate Stronghold")
+                }
+            )
+        },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.primary
+            ) {
+
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    showBottomSheet = true
+                }
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add")
+            }
+        }
+    ) { innerPadding ->
+
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding)
+        ) {
+            Column(modifier = Modifier
+                .padding(16.dp)
+            ) {
+                var upperText = "Need at least 2 eye measures to calculate"
+
+                if (eyeThrows.size >= 2) {
+                    prediction = getIntersection(eyeThrows[0], eyeThrows[1])
+                    upperText = "${prediction.x.toInt()}, ${prediction.z.toInt()}"
+                }
+
+                if (!eyeThrows.isEmpty()) {
+                    LazyColumn {
+                        items(eyeThrows) { currentEye ->
+                            CoordinateItem(currentEye)
+                        }
+                    }
+
+                    HorizontalDivider()
+                }
+
+                Text (text = upperText)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                StrongholdMap(eyeThrows, prediction)
+            }
+        }
+
+        if (showBottomSheet) {
+            AddEyeModal(
+                onDismiss = {
+                    showBottomSheet = false
+                },
+
+                onClick = {
+                    eyeThrows = eyeThrows + listOf(it)
+                }
+            )
         }
     }
 }
@@ -285,6 +322,9 @@ fun StrongholdMap(
     var scale by remember{ mutableFloatStateOf(1f) }
     var offset by remember{mutableStateOf(Offset.Zero)}
 
+    val eyeImage = ImageBitmap.imageResource(R.drawable.ender_eye)
+    val portalImage = ImageBitmap.imageResource(R.drawable.end_portal)
+
     Canvas(
         modifier = modifier
             .size(300.dp, 300.dp)
@@ -364,27 +404,19 @@ fun StrongholdMap(
             val endWorld = Offset(eyeThrow.x.toFloat(), eyeThrow.z.toFloat()) + Offset(-cos(rad), -sin(rad)) * 10000f
             val end = worldToCanvas(endWorld.x, endWorld.y, center, pixelsPerBlock)
 
-            drawCircle(
-                color = Color.Blue,
-                radius = 8f,
-                center = origin
-            )
-
             drawLine(
                 color = Color.Blue,
                 start = origin,
                 end = end,
                 strokeWidth = 4f
             )
+
+            centeredImage(eyeImage, origin, IntSize(60, 60))
         }
 
         val predictionOrigin = worldToCanvas(prediction.x.toFloat(), prediction.z.toFloat(), center, pixelsPerBlock)
 
-        drawCircle(
-            color = Color.Green,
-            radius = 12f,
-            center = predictionOrigin
-        )
+        centeredImage(portalImage, predictionOrigin, IntSize(60, 60))
     }
 }
 
