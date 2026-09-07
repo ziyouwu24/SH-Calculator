@@ -1,7 +1,6 @@
 package com.example.shcalculator.ui.screens
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
@@ -515,7 +514,7 @@ fun EyeModal(onDismiss: () -> Unit, onClick: (EyeThrow) -> Unit) {
                 value = angle,
                 onValueChange = { angle = it },
                 modifier = Modifier.fillMaxWidth(),
-                label = "F3+C Angle"
+                label = "Angle"
             )
 
             Spacer(modifier = Modifier.height(20.dp))

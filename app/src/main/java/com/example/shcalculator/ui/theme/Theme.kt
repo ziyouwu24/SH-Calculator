@@ -1,82 +1,83 @@
 package com.example.shcalculator.ui.theme
 
-import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val LightColors = lightColorScheme(
-    primary = LimeGreen40,//
-    onPrimary = Color.White,//
-    primaryContainer = LimeGreen80,
-    onPrimaryContainer = LimeGreenDark,
+fun previewColorFor(palette: ColorPalette): Color = when (palette) {
+    ColorPalette.MEADOW -> LimeGreen40
+    ColorPalette.OCEAN -> Teal40
+    ColorPalette.SUNSET -> Sunset40
+    ColorPalette.LAVENDER -> Lavender40
+}
 
-    secondary = Beige80,//
-    onSecondary = Beige40,//
-    secondaryContainer = Beige90,//
-    onSecondaryContainer = BrownText,
+private fun lightSchemeFor(palette: ColorPalette): ColorScheme = when (palette) {
+    ColorPalette.MEADOW -> lightColorScheme(
+        primary = LimeGreen40,
+        onPrimary = Color.White,
 
-    background = Beige90,//
-    onBackground = BrownText,//
+        secondary = Beige80,
+        onSecondary = Beige40,
+        secondaryContainer = Beige90,
 
-    surface = Beige90,
-    onSurface = BrownText,
-    surfaceVariant = Beige80,
-    onSurfaceVariant = BrownText,
+        background = Beige90,
+        onBackground = BrownText,
+    )
 
-    tertiary = PortalPurple,
-    onTertiary = Color.White,
+    ColorPalette.OCEAN -> lightColorScheme(
+        primary = Teal40,
+        onPrimary = Color.White,
 
-    error = ErrorRed,
-    onError = Color.White,
-)
+        secondary = SkyGray80,
+        onSecondary = SkyGray40,
+        secondaryContainer = SkyGray90,
 
-private val DarkColors = darkColorScheme(
-    primary = LimeGreen80,
-    onPrimary = LimeGreenDark,
-    primaryContainer = LimeGreen40,
-    onPrimaryContainer = Color.White,
+        background = SkyGray90,
+        onBackground = SlateText,
+    )
 
-    secondary = Beige80,
-    onSecondary = BrownText,
-    secondaryContainer = Beige40,
-    onSecondaryContainer = Color.White,
+    ColorPalette.SUNSET -> lightColorScheme(
+        primary = Sunset40,
+        onPrimary = Color.White,
 
-    background = Color(0xFF211D14),
-    onBackground = Beige90,
+        secondary = CreamPink80,
+        onSecondary = CreamPink40,
+        secondaryContainer = CreamPink90,
 
-    surface = Color(0xFF2B2618),
-    onSurface = Beige90,
-    surfaceVariant = Color(0xFF3A331F),
-    onSurfaceVariant = Beige80,
+        background = CreamPink90,
+        onBackground = MaroonText,
+    )
 
-    tertiary = PortalPurple,
-    onTertiary = Color.White,
+    ColorPalette.LAVENDER -> lightColorScheme(
+        primary = Lavender40,
+        onPrimary = Color.White,
 
-    error = ErrorRed,
-    onError = Color.White,
-)
+        secondary = MistGray80,
+        onSecondary = MistGray40,
+        secondaryContainer = MistGray90,
+
+        background = MistGray90,
+        onBackground = PlumText,
+    )
+}
 
 @Composable
 fun SHCalculatorTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    colorPalette: ColorPalette = AppColorState.colorPalette,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            dynamicLightColorScheme(context)
         }
-        darkTheme -> DarkColors
-        else -> LightColors
+        else -> lightSchemeFor(colorPalette)
     }
 
     MaterialTheme(

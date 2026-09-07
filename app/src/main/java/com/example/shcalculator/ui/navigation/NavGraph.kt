@@ -28,7 +28,7 @@ fun AppNavGraph(navController: NavHostController, modifier: Modifier = Modifier)
             exitTransition = { directionalExit() },
             popEnterTransition = { directionalEnter() },
             popExitTransition = { directionalExit() }
-        ) { TutorialScreen() }
+        ) { TutorialScreen(navController) }
 
         composable(
             route = Screen.Calculator.route,
