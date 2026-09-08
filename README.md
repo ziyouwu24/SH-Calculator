@@ -35,6 +35,8 @@ Users can remove eye throws if mis-inputted or they wish to calculate the locati
 
 [![Demo Video](https://img.youtube.com/vi/A3bWUoZF3jc/maxresdefault.jpg)](https://www.youtube.com/watch?v=A3bWUoZF3jc)
 
+[Watch the Demo Video](https://www.youtube.com/watch?v=A3bWUoZF3jc)
+
 ## Tech Stack
 
 - Kotlin
@@ -56,7 +58,7 @@ WIP fam
 
 ### Requirements
 
-- Android 7.0+
+- Android 7.0+ (Nougat)
 
 ### Installation
 
