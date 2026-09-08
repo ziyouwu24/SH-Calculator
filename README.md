@@ -6,28 +6,26 @@ _An Android app that assists users in finding a stronghold in Minecraft._
 
 [Download APK](#try-it) • [Demo Video](#demo-video) • [Version History](#version-history)
 
-Locating a stronghold requires throwing Eyes of Ender to determine the direction of the stronghold. Eyes are difficult to obtain and have a chance of breaking each throw, making inefficient triangulation costly. Many players also find difficulty in pin-pointing the exact location of a stronghold without using coordinates. 
+Players find a stronghold by throwing Eyes of Ender to determine its direction. Eyes are difficult to obtain and have a chance of breaking each throw, while the average journey uses 5+ throws. Given the large distance between strongholds, players also have trouble pinpointing their exact location without a sophisticated tool. 
 
 ![preview](./assets/AppScreenshots.png)
 
 </div>
 
-## Features
-
-- Add/Remove eye throws individually
-- Calculates stronghold location from multiple Eye throws
-- Interactive map displaying throw vectors and calculated intersection
-- Guided tutorial for new users
-- Customizable app themes
-
 ## How It Works
 
-Users log each eye throw with the position of the in game character and the angle of their crosshair. App visualizes each eye throw in the interactive map.
+- Record each Eye of Ender throw using your position and throw angle.
+- The app plots each throw as a vector on an interactive map.
+- Multiple throws are used to calculate their intersection and predict the stronghold's location.
+- Remove inaccurate throws or use the calculator to locate another stronghold.
 
-When multiple throws are entered, the app calculates where the
-throws intersect. Predicted stronghold location is visualized in the interactive map and prediction card. 
+## Features
 
-Users can remove eye throws if mis-inputted or they wish to calculate the location if a new stronghold. 
+- **Stronghold Calculator** — Calculate a stronghold's location from multiple Eye throws.
+- **Interactive Map** — Visualize throw vectors and the calculated intersection.
+- **Throw Management** — Add or remove individual throws.
+- **Guided Tutorial** — Learn how to use the calculator step-by-step.
+- **Custom Themes** — Personalize the app's appearance.
 
 [Mathematical Approach](#mathematical-approach)
 
@@ -52,6 +50,8 @@ WIP fam
 
 - Add error/uncertainty visualization
 - Support for 3+ throws using linear regression
+- Update map visuals (coordinate labels/clamping markers)
+- Each eye input updates map offset
 - Publish to Google Play
 
 ## Try it
@@ -84,8 +84,6 @@ WIP fam
 4. Build and run on an emulator or Android device
 
 ## Version History
-
-Evolution of the app starting from a blank Android Studio Project
 
 ### Initial Prototype
 
