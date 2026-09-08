@@ -19,6 +19,8 @@ Players find a stronghold by throwing Eyes of Ender to determine its direction. 
 - Multiple throws are used to calculate their intersection and predict the stronghold's location.
 - Remove inaccurate throws or use the calculator to locate another stronghold.
 
+[Mathematical Approach](#mathematical-approach)
+
 ## Features
 
 - **Stronghold Calculator** — Calculate a stronghold's location from multiple Eye throws.
@@ -26,8 +28,6 @@ Players find a stronghold by throwing Eyes of Ender to determine its direction. 
 - **Throw Management** — Add or remove individual throws.
 - **Guided Tutorial** — Learn how to use the calculator step-by-step.
 - **Custom Themes** — Personalize the app's appearance.
-
-[Mathematical Approach](#mathematical-approach)
 
 ## Demo Video
 
