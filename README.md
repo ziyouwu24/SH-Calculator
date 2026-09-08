@@ -54,15 +54,17 @@ WIP fam
 
 ## Try it
 
-### Installation
-
 ### Requirements
 
 - Android 7.0+
 
-1. [Download APK](../../releases/latest) from browser
+### Installation
+
+1. Download the APK from a browser on your Android device
 2. Open APK
 3. Tap install
+
+[Download APK](../../releases/latest)
 
 ## Building From Source
 
