@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AppTopBar(title: String) {
     TopAppBar(
-        expandedHeight = 40.dp,
+        expandedHeight = 35.dp,
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -25,7 +25,7 @@ fun AppTopBar(title: String) {
         title = {
             Text(
                 text = title,
-                modifier = Modifier.offset(y=(-10).dp)
+                modifier = Modifier.offset(y=(-15).dp)
             )
         }
     )

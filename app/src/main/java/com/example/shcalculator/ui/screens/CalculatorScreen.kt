@@ -1,7 +1,9 @@
 package com.example.shcalculator.ui.screens
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.items
@@ -35,6 +37,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
@@ -558,6 +561,8 @@ fun EyeField(
     label: String = "Number"
 ) {
     var hasBeenFocused by remember { mutableStateOf(false) }
+    val isNegative = value.startsWith("-")
+
     OutlinedTextField(
         value = value,
         onValueChange = { newValue ->
@@ -569,6 +574,47 @@ fun EyeField(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
+        trailingIcon = {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .size(32.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(
+                        if (isNegative)
+                            MaterialTheme.colorScheme.error.copy(alpha = 0.15f)
+                        else
+                            MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.12f)
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = if (isNegative)
+                            MaterialTheme.colorScheme.error
+                        else
+                            MaterialTheme.colorScheme.onSecondary,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .clickable {
+                        val toggled = if (isNegative) {
+                            value.removePrefix("-")
+                        } else {
+                            "-$value"
+                        }
+                        onValueChange(toggled)
+                    }
+            ) {
+                Text(
+                    text = if (isNegative) "−" else "+",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    color = if (isNegative)
+                        MaterialTheme.colorScheme.error
+                    else
+                        MaterialTheme.colorScheme.onSecondary
+                )
+            }
+        },
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.onSecondary,
             unfocusedBorderColor = MaterialTheme.colorScheme.onSecondaryContainer,

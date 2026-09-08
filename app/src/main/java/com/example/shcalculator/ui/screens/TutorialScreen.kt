@@ -91,7 +91,7 @@ private val tutorialSlides = listOf(
     TutorialSlide(
         title = "Step 6",
         description = "Repeat steps 1-5 at least once more",
-        imageRes = R.drawable.tutorial_5
+        imageRes = R.drawable.tutorial_6
     )
 )
 

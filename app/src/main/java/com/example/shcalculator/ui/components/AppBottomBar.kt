@@ -20,7 +20,7 @@ fun AppBottomBar(navController: NavController) {
 
     NavigationBar (
         containerColor = MaterialTheme.colorScheme.secondary,
-        modifier = Modifier.height(90.dp)
+        //modifier = Modifier.height(90.dp)
     ){
         bottomNavItems.forEach { screen ->
             val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
@@ -48,7 +48,7 @@ fun AppBottomBar(navController: NavController) {
                     unselectedIconColor = MaterialTheme.colorScheme.primary,
                     unselectedTextColor = MaterialTheme.colorScheme.primary
                 ),
-                modifier = Modifier.offset(y=(10).dp)
+                //modifier = Modifier.offset(y=(10).dp)
             )
         }
     }
